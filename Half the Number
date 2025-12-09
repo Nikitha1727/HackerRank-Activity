@@ -1,0 +1,10 @@
+#include <stdio.h>
+
+
+int main() {
+int num;
+    scanf("%d" , &num);
+    float halfvalue = num/2.0;
+    printf("Half of %d is %.2f", num, halfvalue );
+    return 0;
+}
