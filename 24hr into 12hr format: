@@ -1,0 +1,17 @@
+#include <stdio.h>
+
+int main() {
+    int h, m;
+    scanf("%d %d", &h, &m);
+// Determine AM or PM
+    char *period = (h < 12) ? "AM" : "PM";
+
+    
+    int convertedHour = h % 12;
+    convertedHour = (convertedHour == 0) ? 12 : convertedHour;
+
+    printf("%d:%02d %s", convertedHour, m, period);
+
+    return 0;
+}
+
