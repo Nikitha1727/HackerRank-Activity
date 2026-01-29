@@ -1,0 +1,25 @@
+#include <stdio.h>
+
+int main()
+{
+    int N;
+    scanf("%d", &N);
+
+    int i = 1;
+
+    while (N > 0)
+    {
+        if ((i * i) % 3 != 0)
+        {
+            printf("%d", i * i);
+            N--;
+
+            if (N > 0)
+                printf(" ");
+        }
+
+        i++;
+    }
+
+    return 0;
+}
