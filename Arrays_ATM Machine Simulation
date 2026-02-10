@@ -1,0 +1,117 @@
+#include <stdio.h>
+
+#define MAX 100
+
+typedef struct {
+    int accNo;
+    int pin;
+    long long balance;
+} Account;
+
+int main() {
+
+    int N;
+    scanf("%d", &N);
+
+    Account accounts[MAX];
+
+    for (int i = 0; i < N; i++)
+        scanf("%d %d %lld",
+              &accounts[i].accNo,
+              &accounts[i].pin,
+              &accounts[i].balance);
+
+    int loggedIndex = -1;
+    char choice;
+
+    while (1) {
+
+        scanf(" %c", &choice);
+
+        if (choice == 'A') {
+
+            int acc, pin;
+
+            if (loggedIndex != -1) {
+                scanf("%d %d", &acc, &pin);
+                printf("User %d is already using the ATM.\n",
+                       accounts[loggedIndex].accNo);
+            } else {
+                scanf("%d %d", &acc, &pin);
+
+                int found = -1;
+                for (int i = 0; i < N; i++) {
+                    if (accounts[i].accNo == acc &&
+                        accounts[i].pin == pin) {
+                        found = i;
+                        break;
+                    }
+                }
+
+                if (found == -1)
+                    printf("Wrong Credentials!\n");
+                else {
+                    loggedIndex = found;
+                    printf("Welcome User %d\n", acc);
+                }
+            }
+
+        } else if (choice == 'B') {
+
+            if (loggedIndex == -1)
+                printf("Login first!\n");
+            else
+                printf("Balance: Rs.%lld\n",
+                       accounts[loggedIndex].balance);
+
+        } else if (choice == 'C') {
+
+            long long amt;
+            scanf("%lld", &amt);
+
+            if (loggedIndex == -1)
+                printf("Login first!\n");
+            else {
+                accounts[loggedIndex].balance += amt;
+                printf("New Balance: Rs.%lld\n",
+                       accounts[loggedIndex].balance);
+            }
+
+        } else if (choice == 'D') {
+
+            long long amt;
+            scanf("%lld", &amt);
+
+            if (loggedIndex == -1)
+                printf("Login first!\n");
+            else if (accounts[loggedIndex].balance >= amt) {
+                accounts[loggedIndex].balance -= amt;
+                printf("New Balance: Rs.%lld\n",
+                       accounts[loggedIndex].balance);
+            } else
+                printf("Insufficient balance!\n");
+
+        } else if (choice == 'E') {
+
+            if (loggedIndex == -1)
+                printf("No user is currently logged in.\n");
+            else {
+                loggedIndex = -1;
+                printf("Logged out successfully.\n");
+            }
+
+        } else if (choice == 'F') {
+
+            if (loggedIndex != -1)
+                printf("Exiting the ATM without logging out is not allowed.\n");
+            else {
+                printf("Exiting ATM. Thank you!\n");
+                return 0;
+            }
+
+        } else {
+
+            printf("Invalid choice. Please enter A, B, C, D, E, or F.\n");
+        }
+    }
+}
