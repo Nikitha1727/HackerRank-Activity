@@ -1,0 +1,26 @@
+#include <stdio.h>
+
+int main() {
+    int N;
+    scanf("%d", &N);
+
+    int temp = N;
+    long long binary = 0;
+    long long place = 1;
+
+    if (N == 0) {
+        printf("Binary equivalent of 0: 0");
+        return 0;
+    }
+
+    while (temp > 0) {
+        int bit = temp % 2;
+        binary = binary + bit * place;
+        place = place * 10;
+        temp = temp / 2;
+    }
+
+    printf("Binary equivalent of %d: %lld", N, binary);
+
+    return 0;
+}
