@@ -1,0 +1,40 @@
+#include <stdio.h>
+#include <math.h>
+
+// Function to check if a number is prime
+int isPrime(int num) {
+    if (num < 2)
+        return 0;
+    for (int i = 2; i <= sqrt(num); i++) {
+        if (num % i == 0)
+            return 0;
+    }
+    return 1;
+}
+
+// Function to find nearest prime
+int nearestPrime(int n) {
+    if (isPrime(n))
+        return n;
+
+    int lower = n - 1;
+    int upper = n + 1;
+
+    while (1) {
+        if (lower >= 2 && isPrime(lower))
+            return lower;
+        if (isPrime(upper))
+            return upper;
+
+        lower--;
+        upper++;
+    }
+}
+
+int main() {
+    int n;
+    scanf("%d", &n);
+
+    printf("%d\n", nearestPrime(n));
+    return 0;
+}
