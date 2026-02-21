@@ -1,0 +1,87 @@
+#include <stdio.h>
+
+// Swap helper
+void swap(int *a, int *b) {
+    int temp = *a;
+    *a = *b;
+    *b = temp;
+}
+
+// Partition function for Quickselect
+int partition(int arr[], int left, int right) {
+    int pivot = arr[right];
+    int i = left;
+
+    for (int j = left; j < right; j++) {
+        if (arr[j] < pivot) {
+            swap(&arr[i], &arr[j]);
+            i++;
+        }
+    }
+    swap(&arr[i], &arr[right]);
+    return i;
+}
+
+// Quickselect function
+int quickSelect(int arr[], int left, int right, int k) {
+    if (left <= right) {
+        int pos = partition(arr, left, right);
+
+        if (pos == k)
+            return arr[pos];
+        else if (pos > k)
+            return quickSelect(arr, left, pos - 1, k);
+        else
+            return quickSelect(arr, pos + 1, right, k);
+    }
+    return -1;
+}
+
+// Remove duplicates in-place and return new size
+int removeDuplicates(int arr[], int n) {
+    int newSize = 0;
+
+    for (int i = 0; i < n; i++) {
+        int isDuplicate = 0;
+
+        for (int j = 0; j < newSize; j++) {
+            if (arr[i] == arr[j]) {
+                isDuplicate = 1;
+                break;
+            }
+        }
+
+        if (!isDuplicate) {
+            arr[newSize++] = arr[i];
+        }
+    }
+    return newSize;
+}
+
+// Main function to find kth smallest unique element
+int kthSmallest(int arr[], int n, int k) {
+    // Step 1: Remove duplicates
+    n = removeDuplicates(arr, n);
+
+    if (k > n) return -1; // invalid
+
+    // Step 2: Quickselect (k-1 because index starts from 0)
+    return quickSelect(arr, 0, n - 1, k - 1);
+}
+
+int main() {
+    int n, k;
+
+    scanf("%d", &n);
+    int arr[n];
+
+    for (int i = 0; i < n; i++)
+        scanf("%d", &arr[i]);
+
+    scanf("%d", &k);
+
+    int result = kthSmallest(arr, n, k);
+    printf("%d\n", result);
+
+    return 0;
+}
