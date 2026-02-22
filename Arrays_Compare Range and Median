@@ -1,0 +1,72 @@
+#include <stdio.h>
+
+// Swap function
+void swap(int *a, int *b) {
+    int temp = *a;
+    *a = *b;
+    *b = temp;
+}
+
+// QuickSort Partition
+int partition(int arr[], int low, int high) {
+    int pivot = arr[high];
+    int i = low - 1;
+
+    for (int j = low; j < high; j++) {
+        if (arr[j] <= pivot) {
+            i++;
+            swap(&arr[i], &arr[j]);
+        }
+    }
+    swap(&arr[i + 1], &arr[high]);
+    return i + 1;
+}
+
+// QuickSort
+void quickSort(int arr[], int low, int high) {
+    if (low < high) {
+        int pi = partition(arr, low, high);
+        quickSort(arr, low, pi - 1);
+        quickSort(arr, pi + 1, high);
+    }
+}
+
+int main() {
+    int n;
+    scanf("%d", &n);
+
+    int arr[n];
+
+    // Input elements
+    for (int i = 0; i < n; i++) {
+        scanf("%d", &arr[i]);
+    }
+
+    // Step 1: Find min and max
+    int min = arr[0], max = arr[0];
+
+    for (int i = 1; i < n; i++) {
+        if (arr[i] < min) min = arr[i];
+        if (arr[i] > max) max = arr[i];
+    }
+
+    int range = max - min;
+
+    // Step 2: Sort array to find median
+    quickSort(arr, 0, n - 1);
+
+    // Step 3: Compute median
+    double median;
+    if (n % 2 == 0)
+        median = (arr[n/2 - 1] + arr[n/2]) / 2.0;
+    else
+        median = arr[n/2];
+
+    // Step 4: Compare range and median
+    if (range > median)
+        printf("True\n");
+    else
+        printf("False\n");
+
+    return 0;
+}
