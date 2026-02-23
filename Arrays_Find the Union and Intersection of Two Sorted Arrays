@@ -1,0 +1,76 @@
+#include <stdio.h>
+
+int main() {
+    int n1, n2;
+    scanf("%d", &n1);
+    int a[n1];
+    for (int i = 0; i < n1; i++) scanf("%d", &a[i]);
+
+    scanf("%d", &n2);
+    int b[n2];
+    for (int i = 0; i < n2; i++) scanf("%d", &b[i]);
+
+    int i = 0, j = 0;
+    int lastUnion = 1000000001;     // sentinel
+    int lastInter = 1000000001;
+    int intersectionFound = 0;
+
+    // 🔹 UNION
+    while (i < n1 && j < n2) {
+        int val;
+
+        if (a[i] < b[j]) {
+            val = a[i++];
+        } else if (a[i] > b[j]) {
+            val = b[j++];
+        } else {
+            val = a[i];
+            i++; j++;
+        }
+
+        if (val != lastUnion) {
+            printf("%d ", val);
+            lastUnion = val;
+        }
+    }
+
+    while (i < n1) {
+        if (a[i] != lastUnion) {
+            printf("%d ", a[i]);
+            lastUnion = a[i];
+        }
+        i++;
+    }
+
+    while (j < n2) {
+        if (b[j] != lastUnion) {
+            printf("%d ", b[j]);
+            lastUnion = b[j];
+        }
+        j++;
+    }
+
+    printf("\n");
+
+    // 🔹 INTERSECTION
+    i = 0; j = 0;
+
+    while (i < n1 && j < n2) {
+        if (a[i] < b[j]) i++;
+        else if (a[i] > b[j]) j++;
+        else {
+            if (a[i] != lastInter) {
+                printf("%d ", a[i]);
+                lastInter = a[i];
+                intersectionFound = 1;
+            }
+            i++; j++;
+        }
+    }
+
+    if (!intersectionFound) {
+        printf("Intersection Not Possible");
+    }
+
+    return 0;
+}
