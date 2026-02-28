@@ -1,0 +1,34 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+// Using a static array for frequency to handle 10^6 constraints
+int count[2000001] = {0}; 
+const int OFFSET = 1000000;
+
+int main() {
+    int n;
+    if (scanf("%d", &n) != 1) return 0;
+    
+    int *arr = (int *)malloc(n * sizeof(int));
+    for (int i = 0; i < n; i++) {
+        scanf("%d", &arr[i]);
+        // Increment frequency using offset to handle negative values
+        count[arr[i] + OFFSET]++;
+    }
+
+    int found = 0;
+    for (int i = 0; i < n; i++) {
+        if (count[arr[i] + OFFSET] > 1) {
+            printf("%d\n", arr[i]);
+            found = 1;
+            break;
+        }
+    }
+
+    if (!found) {
+        printf("No Repeating Element\n");
+    }
+
+    free(arr);
+    return 0;
+}
