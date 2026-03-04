@@ -1,0 +1,21 @@
+#include <stdio.h>
+
+int main() {
+    int n, i;
+    // Read input values for n and i
+    scanf("%d %d", &n, &i);
+
+    // Create a mask with the i-th bit as 0 and all other bits as 1.
+    // The expression (1 << i) creates a number with only the i-th bit set.
+    // The expression ~(1 << i) inverts all bits.
+    int mask = ~(1 << i);
+
+    // Perform bitwise AND operation between n and the mask.
+    // This unsets the i-th bit of n while leaving other bits unchanged.
+    int result = n & mask;
+
+    // Print the updated value of n
+    printf("%d\n", result);
+
+    return 0;
+}
