@@ -1,0 +1,43 @@
+#include <stdio.h>
+
+int main() {
+    int n;
+    // Read the input integer from STDIN
+    scanf("%d", &n);
+
+    // Use a mask to isolate the first 4 bits (rightmost bits)
+    // The binary representation of 15 is 0000...1111
+    int mask = 15; // or 0xF
+
+    // Apply the mask using the bitwise AND operator
+    // This operation keeps only the values in the last four positions
+    int first_four_bits = n & mask;
+
+    // Count the set bits in the isolated 4 bits
+    int count = 0;
+    int temp = first_four_bits;
+
+    // Brian Kernighan’s algorithm or a simple loop can be used
+    while (temp > 0) {
+        // Check the least significant bit
+        if (temp % 2 == 1) {
+            count++;
+        }
+        // Right shift by 1 to check the next bit
+        temp = temp >> 1;
+    }
+    
+    // Alternatively, using the Brian Kernighan's algorithm for efficiency:
+    /*
+    int count = 0;
+    while (temp > 0) {
+        temp &= (temp - 1); // Flips the least significant set bit to 0
+        count++;
+    }
+    */
+
+    // Print the count of set bits to STDOUT
+    printf("%d\n", count);
+
+    return 0;
+}
