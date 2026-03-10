@@ -1,0 +1,21 @@
+#include <stdio.h>
+
+long long gcd(long long a, long long b) {
+    while (b) {
+        a %= b;
+        // Swap a and b
+        long long temp = a;
+        a = b;
+        b = temp;
+    }
+    return a;
+}
+
+int main() {
+    long long A, B;
+    if (scanf("%lld %lld", &A, &B) == 2) {
+        long long result = (A / gcd(A, B)) * B;
+        printf("%lld\n", result);
+    }
+    return 0;
+}
