@@ -1,0 +1,118 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+#define CAPACITY 3
+
+// Node structure
+typedef struct Node {
+    int key;
+    int value;
+    struct Node* prev;
+    struct Node* next;
+} Node;
+
+// Hash table (simple array for demo)
+Node* cache[100];
+
+// Head & Tail
+Node *head = NULL, *tail = NULL;
+
+// Create new node
+Node* createNode(int key, int value) {
+    Node* node = (Node*)malloc(sizeof(Node));
+    node->key = key;
+    node->value = value;
+    node->prev = node->next = NULL;
+    return node;
+}
+
+// Remove node
+void removeNode(Node* node) {
+    if (!node) return;
+
+    if (node == head) head = node->next;
+    if (node == tail) tail = node->prev;
+
+    if (node->prev) node->prev->next = node->next;
+    if (node->next) node->next->prev = node->prev;
+}
+
+// Insert at front
+void insertFront(Node* node) {
+    node->next = head;
+    node->prev = NULL;
+
+    if (head) head->prev = node;
+    head = node;
+
+    if (!tail) tail = node;
+}
+
+// Get value
+int get(int key) {
+    if (cache[key] == NULL) return -1;
+
+    Node* node = cache[key];
+
+    removeNode(node);
+    insertFront(node);
+
+    return node->value;
+}
+
+// Put key-value
+void put(int key, int value) {
+    if (cache[key] != NULL) {
+        Node* node = cache[key];
+        node->value = value;
+
+        removeNode(node);
+        insertFront(node);
+        return;
+    }
+
+    if (head && tail) {
+        int count = 0;
+        Node* temp = head;
+        while (temp) {
+            count++;
+            temp = temp->next;
+        }
+
+        if (count == CAPACITY) {
+            cache[tail->key] = NULL;
+            removeNode(tail);
+        }
+    }
+
+    Node* newNode = createNode(key, value);
+    insertFront(newNode);
+    cache[key] = newNode;
+}
+
+// Print cache
+void display() {
+    Node* temp = head;
+    while (temp) {
+        printf("(%d:%d) ", temp->key, temp->value);
+        temp = temp->next;
+    }
+    printf("\n");
+}
+
+// Main
+int main() {
+    put(1, 10);
+    put(2, 20);
+    put(3, 30);
+
+    display();
+
+    get(2);
+    display();
+
+    put(4, 40);
+    display();
+
+    return 0;
+}
