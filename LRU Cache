@@ -1,0 +1,105 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+#define CAPACITY 3
+
+typedef struct Node {
+    int key, value;
+    struct Node *prev, *next;
+} Node;
+
+Node *head = NULL, *tail = NULL;
+
+Node* createNode(int key, int value) {
+    Node* newNode = (Node*)malloc(sizeof(Node));
+    newNode->key = key;
+    newNode->value = value;
+    newNode->prev = newNode->next = NULL;
+    return newNode;
+}
+
+void addToFront(Node* node) {
+    node->next = head;
+    node->prev = NULL;
+    if (head) head->prev = node;
+    head = node;
+    if (!tail) tail = head;
+}
+
+void removeNode(Node* node) {
+    if (node->prev) node->prev->next = node->next;
+    else head = node->next;
+
+    if (node->next) node->next->prev = node->prev;
+    else tail = node->prev;
+}
+
+Node* find(int key) {
+    Node* temp = head;
+    while (temp) {
+        if (temp->key == key) return temp;
+        temp = temp->next;
+    }
+    return NULL;
+}
+
+void put(int key, int value) {
+    Node* node = find(key);
+
+    if (node) {
+        node->value = value;
+        removeNode(node);
+        addToFront(node);
+    } else {
+        if (!head || CAPACITY == 0) return;
+
+        int count = 0;
+        Node* temp = head;
+        while (temp) {
+            count++;
+            temp = temp->next;
+        }
+
+        if (count == CAPACITY) {
+            Node* toDelete = tail;
+            removeNode(toDelete);
+            free(toDelete);
+        }
+
+        Node* newNode = createNode(key, value);
+        addToFront(newNode);
+    }
+}
+
+int get(int key) {
+    Node* node = find(key);
+    if (!node) return -1;
+
+    removeNode(node);
+    addToFront(node);
+    return node->value;
+}
+
+void display() {
+    Node* temp = head;
+    while (temp) {
+        printf("(%d,%d) ", temp->key, temp->value);
+        temp = temp->next;
+    }
+    printf("\n");
+}
+
+int main() {
+    put(1, 10);
+    put(2, 20);
+    put(3, 30);
+    display();
+
+    get(2);
+    display();
+
+    put(4, 40);
+    display();
+
+    return 0;
+}
