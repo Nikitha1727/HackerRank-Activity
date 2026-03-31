@@ -1,0 +1,62 @@
+// Student.java
+class Student {
+    // Fields (instance variables)
+    String name;
+    int age;
+    String course;
+    double marks;
+
+    // Constructor
+    Student(String name, int age, String course, double marks) {
+        this.name = name;
+        this.age = age;
+        this.course = course;
+        this.marks = marks;
+    }
+
+    // Method to display student details
+    void displayDetails() {
+        System.out.println("Name: " + name);
+        System.out.println("Age: " + age);
+        System.out.println("Course: " + course);
+        System.out.println("Marks: " + marks);
+        System.out.println("----------------------");
+    }
+
+    // Method to update marks
+    void updateMarks(double newMarks) {
+        marks = newMarks;
+        System.out.println("Marks updated successfully!");
+    }
+
+    // Method to calculate grade
+    String getGrade() {
+        if (marks >= 90) return "A";
+        else if (marks >= 75) return "B";
+        else if (marks >= 60) return "C";
+        else return "Fail";
+    }
+}
+
+
+
+// Main.java
+public class Main {
+    public static void main(String[] args) {
+
+        // Creating objects
+        Student s1 = new Student("Nikitha", 18, "Computer Science", 88.5);
+        Student s2 = new Student("Rahul", 19, "IT", 72.0);
+
+        // Display details
+        s1.displayDetails();
+        s2.displayDetails();
+
+        // Update marks
+        s1.updateMarks(92.0);
+
+        // Show updated details + grade
+        s1.displayDetails();
+        System.out.println("Grade: " + s1.getGrade());
+    }
+}
